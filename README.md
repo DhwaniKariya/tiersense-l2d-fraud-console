@@ -2,6 +2,9 @@
 
 **Live demo:** https://tiersense-l2d-fraud-console.streamlit.app
 
+**Full implementation** (notebooks, training scripts, and every results file behind the numbers this
+console shows): [tiersense-l2d-thesis-implementation](https://github.com/DhwaniKariya/tiersense-l2d-thesis-implementation)
+
 An interactive prototype built on top of the trained models from the MSc thesis *"A
 Risk-Sensitive Learning-to-Defer Framework for Responsible AI in Financial Fraud Detection"*
 (National College of Ireland, 2026). It compares a standard Learning-to-Defer (L2D) policy
