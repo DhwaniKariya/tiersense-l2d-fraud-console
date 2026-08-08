@@ -138,6 +138,17 @@ CUSTOM_CSS = """
 }
 .decision-line-auto { color: #15803d; font-weight: 700; font-size: 1.05rem; }
 .decision-line-defer { color: #b91c1c; font-weight: 700; font-size: 1.05rem; }
+.reason-code {
+    margin-top: 0.6rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 4px;
+    background: rgba(148,163,184,0.10);
+    border-left: 3px solid #64748b;
+    color: #94a3b8;
+    font-family: "Courier New", monospace;
+    font-size: 0.74rem;
+    letter-spacing: 0.01em;
+}
 .roadmap-card {
     border: 1px solid rgba(128,128,128,0.35);
     border-radius: 10px;
@@ -219,6 +230,12 @@ def get_flagship_case():
         return json.load(f)
 
 
+@st.cache_data
+def get_weight_sensitivity():
+    with open("ulb_weight_sensitivity.json") as f:
+        return json.load(f)
+
+
 standard_model, risk_sensitive_model, scaler_stats, _normal_v_profile = get_models()
 samples = pd.read_csv("sample_transactions.csv")
 borderline_profiles = get_borderline_profiles()
@@ -266,7 +283,7 @@ with st.sidebar:
         )
 
 
-def render_decision_card(col, title, result):
+def render_decision_card(col, title, result, tier=None, policy_id=None):
     with col:
         with st.container(border=True):
             st.markdown(f"**{title}**")
@@ -285,6 +302,13 @@ def render_decision_card(col, title, result):
                 st.markdown(f"<div class='decision-line-defer'>🚨 {result['decision']}</div>", unsafe_allow_html=True)
             else:
                 st.markdown(f"<div class='decision-line-auto'>✅ {result['decision']}</div>", unsafe_allow_html=True)
+            if tier is not None and policy_id is not None:
+                st.markdown(
+                    f"<div class='reason-code'>reason: risk_score={result['fraud_probability']*100:.1f}% "
+                    f"· tier={tier} · deferral_prob={result['defer_probability']*100:.1f}% "
+                    f"· policy={policy_id}</div>",
+                    unsafe_allow_html=True,
+                )
 
 
 def render_transaction_header(amount, tier):
@@ -549,6 +573,66 @@ with page_evidence:
     st.pyplot(fig3)
     plt.close(fig3)
 
+    st.markdown("### 4. What if the weight gradient were gentler or steeper?")
+    st.caption(
+        "Every result above uses one fixed weight schedule per dataset (Section 4.6). This is not a live "
+        "control on the trained model — the risk weight is baked into the training loss itself, so "
+        "changing it means retraining from scratch, not adjusting a frozen model's output. What follows "
+        "are 5 real, independently retrained ULB models from the report's own weight-sensitivity sweep "
+        "(Section 6.1.4), not a simulated or post-hoc reweighting."
+    )
+
+    weight_configs = get_weight_sensitivity()
+    wcol1, wcol2 = st.columns([1, 2])
+    with wcol1:
+        config_name = st.selectbox(
+            "Weight configuration (a separately retrained model)",
+            options=list(weight_configs.keys()),
+            index=0,
+        )
+        cfg = weight_configs[config_name]
+        st.markdown(
+            f"**Risk weights** — Low {cfg['weights']['Low']:.2f} · Medium {cfg['weights']['Medium']:.2f} · "
+            f"High {cfg['weights']['High']:.2f} · Critical {cfg['weights']['Critical']:.2f}"
+        )
+        wk1, wk2 = st.columns(2)
+        with wk1:
+            st.metric("F1 (autonomous decisions)", f"{cfg['f1']:.4f}")
+        with wk2:
+            st.metric("Critical ÷ Low deferral ratio", f"{cfg['critical_over_low_ratio']:.2f}x")
+
+    with wcol2:
+        original = weight_configs["original (thesis)"]
+        tiers = list(cfg["tier_rates"].keys())
+        fig4, ax4 = plt.subplots(figsize=(6.2, 3.6))
+        x = np.arange(len(tiers))
+        width = 0.35
+        orig_vals = [original["tier_rates"][t] for t in tiers]
+        cfg_vals = [cfg["tier_rates"][t] for t in tiers]
+        bars_orig = ax4.bar(x - width / 2, orig_vals, width, label="original (thesis)", color=BASELINE_COLOR)
+        bars_cfg = ax4.bar(x + width / 2, cfg_vals, width, label=config_name, color=RISK_COLOR)
+        ax4.bar_label(bars_orig, fmt="%.2f", fontsize=6.5, color="#cbd5e1", padding=2)
+        ax4.bar_label(bars_cfg, fmt="%.2f", fontsize=6.5, color="#fde68a", padding=2)
+        ax4.set_xticks(x)
+        ax4.set_xticklabels(tiers, fontsize=9)
+        ax4.set_ylabel("Deferral rate (%)", fontsize=9)
+        ax4.margins(y=0.15)
+        ax4.set_title("Deferral rate by tier — this configuration vs the thesis's own", fontsize=9.5)
+        ax4.legend(fontsize=7.5, facecolor="#1e293b", labelcolor="#e2e8f0")
+        style_dark_fig(fig4, ax4)
+        plt.tight_layout()
+        st.pyplot(fig4)
+        plt.close(fig4)
+
+    st.caption(
+        "Steeper weight gradients push Critical-tier deferral very high — the 'steep' configuration defers "
+        "almost every Critical-tier case (21.96%) and even nudges F1 up — but at the cost of far more "
+        "reviewer load. Gentler gradients ('minimal') barely separate the tiers at all, collapsing back "
+        "toward Standard L2D's behaviour. The thesis's own choice sits deliberately between the two, and "
+        "was picked using only the training-set deferral rate before any test-set metric was inspected "
+        "(Section 4.6) — not tuned after the fact to produce the best-looking chart here."
+    )
+
     st.markdown("### Before you go further: what this page doesn't show")
     st.markdown(
         """
@@ -625,8 +709,8 @@ with page_console:
     )
 
     fc_col1, fc_col2 = st.columns(2)
-    render_decision_card(fc_col1, "Standard L2D (uniform cost)", fc_r2)
-    render_decision_card(fc_col2, "Risk-Sensitive L2D (this thesis)", fc_r3)
+    render_decision_card(fc_col1, "Standard L2D (uniform cost)", fc_r2, tier=fc["tier"], policy_id="standard-l2d")
+    render_decision_card(fc_col2, "Risk-Sensitive L2D (this thesis)", fc_r3, tier=fc["tier"], policy_id="risk-sensitive-l2d")
 
     st.markdown(
         f"""
@@ -740,8 +824,8 @@ with page_console:
         r3 = run_inference(risk_sensitive_model, x)
 
         col1, col2 = st.columns(2)
-        render_decision_card(col1, "Standard L2D (uniform cost)", r2)
-        render_decision_card(col2, "Risk-Sensitive L2D (this thesis)", r3)
+        render_decision_card(col1, "Standard L2D (uniform cost)", r2, tier=tier, policy_id="standard-l2d")
+        render_decision_card(col2, "Risk-Sensitive L2D (this thesis)", r3, tier=tier, policy_id="risk-sensitive-l2d")
 
         render_divergence(r2, r3)
         render_tier_context_note(tier, r3)
@@ -770,8 +854,8 @@ with page_console:
         r3 = run_inference(risk_sensitive_model, x)
 
         col1, col2 = st.columns(2)
-        render_decision_card(col1, "Standard L2D (uniform cost)", r2)
-        render_decision_card(col2, "Risk-Sensitive L2D (this thesis)", r3)
+        render_decision_card(col1, "Standard L2D (uniform cost)", r2, tier=tier, policy_id="standard-l2d")
+        render_decision_card(col2, "Risk-Sensitive L2D (this thesis)", r3, tier=tier, policy_id="risk-sensitive-l2d")
 
         render_divergence(r2, r3)
         render_profile_sensitivity_note(profile, tier)
