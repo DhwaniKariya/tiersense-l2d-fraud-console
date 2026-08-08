@@ -1,5 +1,7 @@
 # TierSense — Risk-Sensitive Deferral Console
 
+**Live demo:** https://tiersense-l2d-fraud-console.streamlit.app
+
 An interactive prototype built on top of the trained models from the MSc thesis *"A
 Risk-Sensitive Learning-to-Defer Framework for Responsible AI in Financial Fraud Detection"*
 (National College of Ireland, 2026). It compares a standard Learning-to-Defer (L2D) policy
@@ -53,6 +55,10 @@ Opens at http://localhost:8501 by default.
   `build_scenario_catalog.py`.
 - `borderline_profiles.json`, `divergent_cases.csv`, `critical_m3_deferred.csv`,
   `flagship_case.json` — supporting curated case data used by the console.
+- `ulb_weight_sensitivity.json` — 5 real, independently retrained ULB models from the report's
+  own weight-sensitivity sweep (Section 6.1.4), used by the "What if the weight gradient were
+  gentler or steeper?" section. Not a live-retraining control; the risk weight is baked into the
+  training loss, so changing it means retraining from scratch.
 - The `build_*.py` / `diagnose_*.py` / `find_*.py` scripts were one-off tools used to generate the
   curated sample files above from the full 284,807-row ULB dataset. They are included for
   transparency but are not needed to run the app, and they require the raw dataset (not bundled
