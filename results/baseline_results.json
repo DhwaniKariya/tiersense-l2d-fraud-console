@@ -1,0 +1,12 @@
+{
+    "model": "Baseline Logistic Regression",
+    "accuracy": 0.9743,
+    "f1_score": 0.1094,
+    "roc_auc": 0.9698,
+    "fraud_recall": 0.92,
+    "fraud_precision": 0.06,
+    "true_negatives": 55406,
+    "false_positives": 1458,
+    "false_negatives": 8,
+    "true_positives": 90
+}

@@ -13,6 +13,7 @@ the report's Evaluation chapter (Tables 3-16).
 Run with:  py -3.13 -m streamlit run app.py
 """
 import json
+import os
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -20,6 +21,8 @@ import pandas as pd
 import streamlit as st
 
 from l2d_model import amount_to_tier, build_input_vector, load_models, run_inference
+
+HERE = os.path.dirname(os.path.abspath(__file__))
 
 st.set_page_config(page_title="TierSense — Risk-Sensitive Deferral Console", page_icon="🛡️", layout="wide")
 
@@ -220,24 +223,24 @@ def get_models():
 
 @st.cache_data
 def get_borderline_profiles():
-    with open("borderline_profiles.json") as f:
+    with open(os.path.join(HERE, "borderline_profiles.json")) as f:
         return json.load(f)
 
 
 @st.cache_data
 def get_flagship_case():
-    with open("flagship_case.json") as f:
+    with open(os.path.join(HERE, "flagship_case.json")) as f:
         return json.load(f)
 
 
 @st.cache_data
 def get_weight_sensitivity():
-    with open("ulb_weight_sensitivity.json") as f:
+    with open(os.path.join(HERE, "ulb_weight_sensitivity.json")) as f:
         return json.load(f)
 
 
 standard_model, risk_sensitive_model, scaler_stats, _normal_v_profile = get_models()
-samples = pd.read_csv("sample_transactions.csv")
+samples = pd.read_csv(os.path.join(HERE, "sample_transactions.csv"))
 borderline_profiles = get_borderline_profiles()
 flagship_case = get_flagship_case()
 

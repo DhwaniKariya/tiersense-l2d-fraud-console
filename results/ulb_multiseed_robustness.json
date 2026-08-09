@@ -1,0 +1,111 @@
+{
+    "data_seed": 42,
+    "model_seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+    ],
+    "runs": [
+        {
+            "seed": 42,
+            "m2_f1": 0.7736,
+            "m2_tier": {
+                "Low": 0.28,
+                "Medium": 0.18,
+                "High": 0.25,
+                "Critical": 0.21
+            },
+            "m3_f1": 0.7378,
+            "m3_tier": {
+                "Low": 0.42,
+                "Medium": 0.22,
+                "High": 0.49,
+                "Critical": 0.96
+            },
+            "critical_m2_to_m3_ratio": 4.57,
+            "m3_critical_over_low_ratio": 2.29
+        },
+        {
+            "seed": 43,
+            "m2_f1": 0.7328,
+            "m2_tier": {
+                "Low": 0.81,
+                "Medium": 0.25,
+                "High": 0.54,
+                "Critical": 0.53
+            },
+            "m3_f1": 0.7602,
+            "m3_tier": {
+                "Low": 0.52,
+                "Medium": 0.27,
+                "High": 0.85,
+                "Critical": 13.09
+            },
+            "critical_m2_to_m3_ratio": 24.7,
+            "m3_critical_over_low_ratio": 25.17
+        },
+        {
+            "seed": 44,
+            "m2_f1": 0.0,
+            "m2_tier": {
+                "Low": 0.82,
+                "Medium": 0.43,
+                "High": 1.09,
+                "Critical": 2.08
+            },
+            "m3_f1": 0.0,
+            "m3_tier": {
+                "Low": 0.86,
+                "Medium": 0.45,
+                "High": 1.4,
+                "Critical": 12.82
+            },
+            "critical_m2_to_m3_ratio": 6.16,
+            "m3_critical_over_low_ratio": 14.91
+        },
+        {
+            "seed": 45,
+            "m2_f1": 0.721,
+            "m2_tier": {
+                "Low": 0.45,
+                "Medium": 0.22,
+                "High": 0.4,
+                "Critical": 0.59
+            },
+            "m3_f1": 0.7249,
+            "m3_tier": {
+                "Low": 0.47,
+                "Medium": 0.27,
+                "High": 1.11,
+                "Critical": 13.89
+            },
+            "critical_m2_to_m3_ratio": 23.54,
+            "m3_critical_over_low_ratio": 29.55
+        },
+        {
+            "seed": 46,
+            "m2_f1": 0.0,
+            "m2_tier": {
+                "Low": 1.0,
+                "Medium": 0.45,
+                "High": 0.9,
+                "Critical": 0.8
+            },
+            "m3_f1": 0.0,
+            "m3_tier": {
+                "Low": 0.97,
+                "Medium": 0.55,
+                "High": 1.46,
+                "Critical": 15.28
+            },
+            "critical_m2_to_m3_ratio": 19.1,
+            "m3_critical_over_low_ratio": 15.75
+        }
+    ],
+    "critical_m2_to_m3_ratio_mean": 15.614,
+    "critical_m2_to_m3_ratio_std": 8.589262133617765,
+    "m3_critical_over_low_ratio_mean": 17.534,
+    "m3_critical_over_low_ratio_std": 9.435468403847263
+}

@@ -1,0 +1,22 @@
+{
+    "model": "Standard L2D",
+    "deferral_cost": 0.13,
+    "total_test": 56962,
+    "autonomous": 56822,
+    "deferred": 140,
+    "deferral_rate": 0.25,
+    "accuracy": 0.9992,
+    "f1_score": 0.7736,
+    "roc_auc": 0.9787,
+    "frauds_total": 98,
+    "frauds_deferred": 1,
+    "frauds_caught": 82,
+    "frauds_missed": 15,
+    "deferral_by_tier": {
+        "Low": 0.28,
+        "Medium": 0.18,
+        "High": 0.25,
+        "Critical": 0.21
+    },
+    "seed": 42
+}

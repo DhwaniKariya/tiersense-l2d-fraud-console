@@ -1,0 +1,28 @@
+{
+  "model": "Rule-based deferral baseline (fresh Model-3-architecture classifier + hand-written rule: defer iff Critical tier)",
+  "dataset": "IEEE-CIS",
+  "sanity_check_learned_deferral": {
+    "f1": 0.5593,
+    "overall_deferral_rate": 36.1,
+    "tier_rates": {
+      "Low": 18.6,
+      "Medium": 13.62,
+      "High": 41.94,
+      "Critical": 70.56
+    }
+  },
+  "deferral_rate": 24.74,
+  "f1_score": 0.2898,
+  "accuracy": 0.8896,
+  "roc_auc": 0.8906,
+  "frauds_total": 4133,
+  "frauds_deferred": 1310,
+  "frauds_caught": 2003,
+  "frauds_missed": 820,
+  "deferral_by_tier": {
+    "Low": 0.0,
+    "Medium": 0.0,
+    "High": 0.0,
+    "Critical": 100.0
+  }
+}

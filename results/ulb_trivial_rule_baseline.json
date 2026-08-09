@@ -1,0 +1,19 @@
+{
+  "model": "Rule-based deferral baseline (Model 3 classifier + hand-written rule: defer iff Critical tier)",
+  "dataset": "ULB",
+  "deferral_rate": 3.29,
+  "f1_score": 0.5704,
+  "accuracy": 0.9978,
+  "roc_auc": 0.9797,
+  "frauds_total": 98,
+  "frauds_deferred": 6,
+  "frauds_caught": 81,
+  "frauds_missed": 11,
+  "deferral_by_tier": {
+    "Low": 0.0,
+    "Medium": 0.0,
+    "High": 0.0,
+    "Critical": 100.0
+  },
+  "note": "Uses the SAME trained classifier as Model 3 (risk_sensitive_l2d.pth); only the deferral decision differs (hand-written rule vs learned deferral head), to isolate the effect of the learned mechanism specifically."
+}

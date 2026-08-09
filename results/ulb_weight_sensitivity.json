@@ -1,0 +1,82 @@
+{
+  "original (thesis)": {
+    "weights": {
+      "Low": 1.0,
+      "Medium": 0.8,
+      "High": 0.5,
+      "Critical": 0.2
+    },
+    "f1": 0.7378,
+    "tier_rates": {
+      "Low": 0.421,
+      "Medium": 0.224,
+      "High": 0.488,
+      "Critical": 0.962
+    },
+    "critical_over_low_ratio": 2.29
+  },
+  "gentle (IEEE-CIS-style)": {
+    "weights": {
+      "Low": 1.0,
+      "Medium": 0.9,
+      "High": 0.7,
+      "Critical": 0.5
+    },
+    "f1": 0.7593,
+    "tier_rates": {
+      "Low": 0.403,
+      "Medium": 0.203,
+      "High": 0.301,
+      "Critical": 0.374
+    },
+    "critical_over_low_ratio": 0.93
+  },
+  "steep": {
+    "weights": {
+      "Low": 1.0,
+      "Medium": 0.6,
+      "High": 0.3,
+      "Critical": 0.05
+    },
+    "f1": 0.7656,
+    "tier_rates": {
+      "Low": 0.613,
+      "Medium": 0.253,
+      "High": 1.268,
+      "Critical": 21.955
+    },
+    "critical_over_low_ratio": 35.82
+  },
+  "moderate": {
+    "weights": {
+      "Low": 1.0,
+      "Medium": 0.75,
+      "High": 0.5,
+      "Critical": 0.25
+    },
+    "f1": 0.7692,
+    "tier_rates": {
+      "Low": 0.421,
+      "Medium": 0.21,
+      "High": 0.496,
+      "Critical": 0.908
+    },
+    "critical_over_low_ratio": 2.16
+  },
+  "minimal": {
+    "weights": {
+      "Low": 1.0,
+      "Medium": 0.95,
+      "High": 0.85,
+      "Critical": 0.7
+    },
+    "f1": 0.7793,
+    "tier_rates": {
+      "Low": 0.526,
+      "Medium": 0.253,
+      "High": 0.374,
+      "Critical": 0.374
+    },
+    "critical_over_low_ratio": 0.71
+  }
+}

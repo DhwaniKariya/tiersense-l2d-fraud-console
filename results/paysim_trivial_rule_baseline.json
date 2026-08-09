@@ -1,0 +1,28 @@
+{
+  "model": "Rule-based deferral baseline (fresh Model-3-architecture classifier + hand-written rule: defer iff Critical tier)",
+  "dataset": "PaySim",
+  "sanity_check_learned_deferral": {
+    "f1": 0.6169,
+    "overall_deferral_rate": 1.28,
+    "tier_rates": {
+      "Low": 0.018,
+      "Medium": 0.507,
+      "High": 0.742,
+      "Critical": 3.835
+    }
+  },
+  "deferral_rate": 25.08,
+  "f1_score": 0.4181,
+  "accuracy": 0.9953,
+  "roc_auc": 0.9982,
+  "frauds_total": 1643,
+  "frauds_deferred": 933,
+  "frauds_caught": 702,
+  "frauds_missed": 8,
+  "deferral_by_tier": {
+    "Low": 0.0,
+    "Medium": 0.0,
+    "High": 0.0,
+    "Critical": 100.0
+  }
+}

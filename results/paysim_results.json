@@ -1,0 +1,71 @@
+{
+    "dataset": "PaySim",
+    "base_cost": 0.4,
+    "risk_weights": {
+        "Low": 1.0,
+        "Medium": 0.8,
+        "High": 0.5,
+        "Critical": 0.2
+    },
+    "seed": 42,
+    "note": "Base cost recalibrated from 0.13 to 0.4 after a full calibration sweep (see paysim_cost_calibration.json) found the model's response to cost is bimodal on this 7-feature dataset: costs 0.13 and 0.2 collapse to ~99.6% deferral (defer everything), costs 0.3, 0.5, 0.65, 0.8 and 1.0 collapse to ~0% deferral (defer nothing) within 8 epochs. cost=0.4 was the only value found to settle into a stable, non-degenerate intermediate operating point, confirmed here over a full un-aborted 15-epoch run for both Model 2 and Model 3.",
+    "model1_baseline": {
+        "total_test": 554082,
+        "autonomous": 554082,
+        "deferred": 0,
+        "deferral_rate": 0.0,
+        "accuracy": 0.9968,
+        "f1_score": 0.6477,
+        "roc_auc": 0.9984,
+        "frauds_total": 1643,
+        "frauds_deferred": 0,
+        "frauds_caught": 1630,
+        "frauds_missed": 13,
+        "deferral_by_tier": {
+            "Low": 0.0,
+            "Medium": 0.0,
+            "High": 0.0,
+            "Critical": 0.0
+        }
+    },
+    "model2_standard_l2d": {
+        "total_test": 554082,
+        "autonomous": 551586,
+        "deferred": 2496,
+        "deferral_rate": 0.45,
+        "accuracy": 0.996,
+        "f1_score": 0.5994,
+        "roc_auc": 0.9985,
+        "frauds_total": 1643,
+        "frauds_deferred": 1,
+        "frauds_caught": 1633,
+        "frauds_missed": 9,
+        "deferral_by_tier": {
+            "Low": 0.0,
+            "Medium": 0.44,
+            "High": 0.69,
+            "Critical": 0.68
+        }
+    },
+    "model3_risk_sensitive": {
+        "total_test": 554082,
+        "autonomous": 547003,
+        "deferred": 7079,
+        "deferral_rate": 1.28,
+        "accuracy": 0.9963,
+        "f1_score": 0.6169,
+        "roc_auc": 0.9985,
+        "frauds_total": 1643,
+        "frauds_deferred": 2,
+        "frauds_caught": 1632,
+        "frauds_missed": 9,
+        "deferral_by_tier": {
+            "Low": 0.02,
+            "Medium": 0.51,
+            "High": 0.74,
+            "Critical": 3.84
+        }
+    },
+    "critical_tier_m2_to_m3_ratio": 5.65,
+    "analysis": "Standard L2D (Model 2) is nearly flat across High (0.69%) and Critical (0.68%) tiers -- it does not preferentially defer the highest-risk transactions, consistent with the pattern already found on ULB and IEEE-CIS. Risk-Sensitive L2D (Model 3) raises Critical-tier deferral to 3.84%, a 5.65x increase over Model 2's Critical-tier rate, while barely touching Low-tier deferral (0.02%). This is directionally consistent with both other datasets (ULB 4.6x-24.7x across 5 seeds; IEEE-CIS 3.8x Critical/Low ratio) despite PaySim's much narrower absolute deferral rates -- the effect holds even on this feature-poor (7-feature), highly imbalanced, difficult-to-calibrate dataset."
+}

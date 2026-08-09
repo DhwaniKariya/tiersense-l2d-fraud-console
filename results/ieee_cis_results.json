@@ -1,0 +1,54 @@
+{
+    "dataset": "IEEE-CIS Fraud Detection",
+    "total_test": 118108,
+    "fraud_rate": 3.5,
+    "base_cost": 0.63,
+    "risk_weights": {
+        "Low": 1.0,
+        "Medium": 0.9,
+        "High": 0.7,
+        "Critical": 0.5
+    },
+    "seed": 42,
+    "note": "Model 2 and Model 3 share the same base_cost (single-variable design); previous version used 0.63 for Model 2 vs 0.67 for Model 3, which confounded the comparison.",
+    "model1_baseline": {
+        "deferral_rate": 0.0,
+        "f1_score": 0.3426,
+        "roc_auc": 0.9046,
+        "frauds_missed": 1030,
+        "deferral_by_tier": {
+            "Low": 0.0,
+            "Medium": 0.0,
+            "High": 0.0,
+            "Critical": 0.0
+        }
+    },
+    "model2_standard_l2d": {
+        "deferral_rate": 8.91,
+        "f1_score": 0.4001,
+        "roc_auc": 0.9128,
+        "frauds_missed": 903,
+        "frauds_deferred": 307,
+        "deferral_by_tier": {
+            "Low": 12.74,
+            "Medium": 3.6,
+            "High": 8.68,
+            "Critical": 10.67
+        }
+    },
+    "model3_risk_sensitive": {
+        "deferral_rate": 36.1,
+        "f1_score": 0.5593,
+        "roc_auc": 0.9435,
+        "frauds_missed": 460,
+        "frauds_deferred": 1437,
+        "deferral_by_tier": {
+            "Low": 18.6,
+            "Medium": 13.62,
+            "High": 41.94,
+            "Critical": 70.56
+        },
+        "critical_low_ratio": 3.8
+    },
+    "key_finding": "Critical tier defers 3.8x more than Low tier"
+}
