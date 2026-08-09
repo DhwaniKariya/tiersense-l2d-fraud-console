@@ -74,7 +74,7 @@ const TIER_STATS = {
     ratio: "1.5x",
     note:
       "Low tier carries no cost reduction in this design (risk weight 1.0, unchanged from Standard " +
-      "L2D), so it's expected to barely move — this small residual shift reflects incidental " +
+      "L2D), so it's expected to barely move. This small residual shift reflects incidental " +
       "shared-trunk training variation, not the mechanism this thesis is about.",
   },
   Medium: {
@@ -83,7 +83,7 @@ const TIER_STATS = {
     ratio: "1.2x",
     note:
       "Medium tier gets a modest cost reduction (risk weight 0.8), and shows a correspondingly " +
-      "modest increase — smaller than High or Critical, as the graded design intends.",
+      "modest increase, smaller than High or Critical, as the graded design intends.",
   },
   High: {
     m2: "0.25%",
@@ -99,7 +99,7 @@ const TIER_STATS = {
     ratio: "4.6x",
     note:
       "Critical tier gets the largest cost reduction (risk weight 0.2), producing the largest " +
-      "relative increase — though that ratio itself ranged 4.6x-24.7x across five training seeds, " +
+      "relative increase, though that ratio itself ranged 4.6x-24.7x across five training seeds, " +
       "and needs roughly a 4-5x deferral-cost gradient between tiers to show up at all " +
       "(Sections 6.1.3-6.1.4).",
   },
@@ -120,16 +120,16 @@ const CATEGORY_INFO = {
   baseline_agree: {
     name: "✅ Both models agree (baseline)",
     desc:
-      "Both models make the same call, no dispute — what most real transactions look like. " +
+      "Both models make the same call, no dispute, which is what most real transactions look like. " +
       "Included so you see the ordinary case, not only the interesting ones.",
   },
   only_m2_defers: {
     name: "🟦 Standard L2D defers, Risk-Sensitive doesn't",
     desc:
-      "Standard L2D is a real Learning-to-Defer model, not a plain classifier — it has its own " +
+      "Standard L2D is a real Learning-to-Defer model, not a plain classifier, it has its own " +
       "deferral head and does send some cases to a human. Every real example of this in the " +
       "dataset turns out to be an actual normal transaction the classifier found hard to read, " +
-      "never a real fraud — Standard L2D's deferrals are driven by classification difficulty, " +
+      "never a real fraud. Standard L2D's deferrals are driven by classification difficulty, " +
       "not by transaction risk.",
   },
   only_m3_defers: {
@@ -153,13 +153,13 @@ const CATEGORY_INFO = {
     name: "⚠️ Both models miss a real fraud",
     desc:
       "The most important failure mode to show honestly: real frauds both models auto-approved " +
-      "and got wrong. Risk-sensitive weighting does not fix this — it changes who reviews what, " +
+      "and got wrong. Risk-sensitive weighting does not fix this, it changes who reviews what, " +
       "not how good the underlying classifier is.",
   },
   false_alarm: {
     name: "🚨 Both flag a normal transaction as fraud",
     desc:
-      "Real, legitimate transactions both models auto-blocked as fraud — the other kind of " +
+      "Real, legitimate transactions both models auto-blocked as fraud, the other kind of " +
       "error, a false alarm rather than a missed fraud.",
   },
   edge_boundary: {

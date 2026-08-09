@@ -48,7 +48,7 @@ document.getElementById("sidebar-demo-disclosure").innerHTML =
   `The <b>Browse real transactions</b> tab holds ${samples.length} real transactions, deliberately ` +
   `picked to cover 8 named scenario categories (both agree, only one defers in either direction, ` +
   `both defer, models disagree on the label, both miss a fraud, false alarms, boundary edge ` +
-  `cases) — <b>not a random sample</b>. Each category is rare or common in very different ways in ` +
+  `cases), <b>not a random sample</b>. Each category is rare or common in very different ways in ` +
   `the full ${FULL_DATASET_SIZE_FMT}-row dataset, e.g. only-Standard-defers cases: ` +
   `${CATEGORY_REAL_FREQUENCY.only_m2_defers} (${(CATEGORY_REAL_FREQUENCY.only_m2_defers / FULL_DATASET_SIZE * 100).toFixed(3)}%); ` +
   `only-Risk-Sensitive-defers cases: ${CATEGORY_REAL_FREQUENCY.only_m3_defers} ` +
@@ -72,9 +72,9 @@ function renderDecisionCard(container, title, result, tier, policyId) {
     <div class="card">
       <b class="card-title">${title}</b><br/><br/>
       <span class="chip ${predClass}">PREDICTED: ${result.predictedLabel.toUpperCase()}</span>
-      <div class="prob-label">Fraud probability — ${(result.fraudProbability * 100).toFixed(1)}%</div>
+      <div class="prob-label">Fraud probability: ${(result.fraudProbability * 100).toFixed(1)}%</div>
       <div class="prob-bar"><div class="prob-bar-fill" style="width:${Math.min(result.fraudProbability, 1) * 100}%"></div></div>
-      <div class="prob-label">Deferral probability — ${(result.deferProbability * 100).toFixed(1)}%</div>
+      <div class="prob-label">Deferral probability: ${(result.deferProbability * 100).toFixed(1)}%</div>
       <div class="prob-bar"><div class="prob-bar-fill" style="width:${Math.min(result.deferProbability, 1) * 100}%"></div></div>
       ${decisionHtml}
       ${reasonHtml}
@@ -101,7 +101,7 @@ function tierContextNote(tier, r3) {
   if (r3.deferred) return "";
   const s = TIER_STATS[tier];
   return `Why is this still AUTO-DECIDED? On the full ULB test set, ${tier} tier is deferred ${s.m3} of ` +
-    `the time under Risk-Sensitive L2D (vs ${s.m2} under Standard L2D, a ${s.ratio} change) — so ` +
+    `the time under Risk-Sensitive L2D (vs ${s.m2} under Standard L2D, a ${s.ratio} change), so ` +
     `seeing AUTO-DECIDED here is the typical case, not an exception. ${s.note} See report Section ` +
     `6.1.2 for the full tier breakdown.`;
 }
@@ -129,7 +129,7 @@ const kpis = [
   ["6.6x", "IEEE-CIS: Critical-tier deferral increase, Standard → Risk-Sensitive (headline run)"],
   ["5.65x", "PaySim: Critical-tier deferral increase, Standard → Risk-Sensitive"],
   [`${criticalWins} / ${Object.keys(DATASET_METRICS).length}`, "datasets where Critical tier gets the largest percentage-point increase in deferral of any tier"],
-  ["1 term", "changed in the loss function — same architecture, retrained independently on each dataset"],
+  ["1 term", "changed in the loss function, same architecture, retrained independently on each dataset"],
 ];
 const kpiRow = document.getElementById("kpi-row");
 kpis.forEach(([number, label]) => {
@@ -221,7 +221,7 @@ function renderWeightConfig() {
   const configName = weightSelect.value;
   const cfg = weightConfigs[configName];
   document.getElementById("weight-config-weights").innerHTML =
-    `<b>Risk weights</b> — Low ${cfg.weights.Low.toFixed(2)} · Medium ${cfg.weights.Medium.toFixed(2)} · ` +
+    `<b>Risk weights</b>: Low ${cfg.weights.Low.toFixed(2)} · Medium ${cfg.weights.Medium.toFixed(2)} · ` +
     `High ${cfg.weights.High.toFixed(2)} · Critical ${cfg.weights.Critical.toFixed(2)}`;
   document.getElementById("weight-config-f1").textContent = cfg.f1.toFixed(4);
   document.getElementById("weight-config-ratio").textContent = `${cfg.critical_over_low_ratio.toFixed(2)}x`;
@@ -230,7 +230,7 @@ function renderWeightConfig() {
   const tiers = Object.keys(cfg.tier_rates);
   const chartDiv = document.getElementById("weight-config-chart");
   renderGroupedBarChart(chartDiv, {
-    title: "Deferral rate by tier — this configuration vs the thesis's own",
+    title: "Deferral rate by tier: this configuration vs the thesis's own",
     categories: tiers,
     series: [
       { label: "original (thesis)", values: tiers.map((t) => original.tier_rates[t]), color: BASELINE_COLOR },
@@ -268,18 +268,18 @@ renderDecisionCard(fcCol2, "Risk-Sensitive L2D (this thesis)", fcR3, fc.tier, "r
 
 document.getElementById("flagship-narrative").innerHTML =
   `Both models were almost equally sure this was fraud: Standard L2D was <b>${(fcR2.fraudProbability * 100).toFixed(1)}% confident</b>, ` +
-  `Risk-Sensitive L2D was <b>${(fcR3.fraudProbability * 100).toFixed(1)}% confident</b> — essentially the same read on the transaction. ` +
+  `Risk-Sensitive L2D was <b>${(fcR3.fraudProbability * 100).toFixed(1)}% confident</b>, essentially the same read on the transaction. ` +
   `Standard L2D processed it <b>completely automatically anyway. No human ever saw it. No audit trail.</b> ` +
   `Risk-Sensitive L2D sent it to a human reviewer, <b>purely because of the €${fc.amount.toFixed(0)} size of the transaction</b>, ` +
   `not because it was any less sure. That is the entire mechanism this thesis proposes: not smarter fraud ` +
   `detection (Standard L2D actually scores slightly higher on raw accuracy, Table 3), but <b>proportional human ` +
-  `oversight</b> — the bigger the transaction, the more a human gets a say, regardless of how confident the ` +
+  `oversight</b>, the bigger the transaction, the more a human gets a say, regardless of how confident the ` +
   `model already is. This is the real-world case for EU AI Act Article 14 human oversight made concrete.`;
 
 /* ================= Browse real transactions ================= */
 document.getElementById("review-caption").textContent =
   `${samples.length} real transactions from the held-out test set, organised into named categories ` +
-  `covering every scenario the two policies can produce — not just the interesting ones.`;
+  `covering every scenario the two policies can produce, not just the interesting ones.`;
 
 const availableCategories = CATEGORY_ORDER.filter((c) => samples.some((s) => s.scenario === c));
 const categorySelect = document.getElementById("category-select");
@@ -399,9 +399,9 @@ function renderExplorerTransaction() {
   if (profile.matches_critical_defers_most === false) {
     const highest = profile.highest_m3_defer_tier;
     warnDiv.innerHTML = `<div class="warn-box">For this specific pattern, <b>${highest} tier is deferred most by Risk-Sensitive L2D, not ` +
-      `Critical</b> — the opposite ordering from the thesis's population-level result (Table 4). ` +
+      `Critical</b>, the opposite ordering from the thesis's population-level result (Table 4). ` +
       `'Critical defers most' is an aggregate statistic across thousands of transactions, not a ` +
-      `guarantee for every individual behaviour pattern — the closest discussion of why the effect ` +
+      `guarantee for every individual behaviour pattern. The closest discussion of why the effect ` +
       `isn't uniform is the weight-sensitivity finding in Section 6.1.4. Try the other two patterns ` +
       `below to compare.</div>`;
   } else {

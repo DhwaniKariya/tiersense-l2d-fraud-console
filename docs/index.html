@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>TierSense — Risk-Sensitive Deferral Console</title>
+<title>TierSense: Risk-Sensitive Deferral Console</title>
 <meta name="description" content="Compares a standard Learning-to-Defer policy against a risk-sensitive one on the same transaction, live." />
 <link rel="stylesheet" href="style.css" />
 </head>
@@ -11,7 +11,7 @@
 <div class="page">
 
   <div class="ts-header">
-    <h1>🛡️ TierSense <span class="sub">— Risk-Sensitive Deferral Console</span></h1>
+    <h1>🛡️ TierSense <span class="sub">· Risk-Sensitive Deferral Console</span></h1>
     <p>Compares a standard Learning-to-Defer policy against a risk-sensitive one on the same transaction, live.
       <span class="pill pill-research" style="margin-left:6px;">RESEARCH PROTOTYPE · MSc THESIS</span></p>
   </div>
@@ -21,7 +21,7 @@
     <p>This app has two views: <b>Why Risk-Sensitive L2D</b> compares all three trained models across
       all three datasets from the report; <b>ULB Transaction Console</b> lets you explore individual
       real transactions from the ULB dataset only. This is a thesis research prototype, not a
-      production system — no organisation's live data has been run through it.</p>
+      production system, no organisation's live data has been run through it.</p>
     <hr />
     <h3>Demo set disclosure</h3>
     <p id="sidebar-demo-disclosure">Loading…</p>
@@ -33,7 +33,7 @@
     <div class="tier-row"><span class="tier-chip" style="background:#e74c3c">Critical</span> &nbsp;&gt; €500</div>
     <hr />
     <p style="font-size:0.78rem;">Full implementation (notebooks, training scripts, results): <a class="link" href="../../">this repo</a>.
-      Runs entirely in your browser — no server, nothing sent anywhere.</p>
+      Runs entirely in your browser. No server, nothing sent anywhere.</p>
   </aside>
 
   <main class="main-col">
@@ -48,7 +48,7 @@
     <div class="intro-box">
       <b>Before looking at any single transaction:</b> here is the evidence, across all three fraud
       datasets tested in the report, for why a risk-sensitive deferral cost is needed at all. Every
-      number on this page comes straight from the report's Evaluation chapter (Tables 3-16) — nothing
+      number on this page comes straight from the report's Evaluation chapter (Tables 3-16), nothing
       here is recomputed live. Scroll down, then switch to the ULB console to see the same mechanism
       operate on individual transactions.
     </div>
@@ -60,38 +60,38 @@
     <p></p>
     <div class="problem-box">
       <b>The problem, in one real number:</b> on IEEE-CIS, Standard L2D defers <b>more</b> on Low-tier
-      transactions (12.74%) than on Critical-tier transactions (10.67%) — backwards from what
+      transactions (12.74%) than on Critical-tier transactions (10.67%), backwards from what
       risk-proportional human oversight should look like, and the exact structural flaw that motivated
       this thesis (Section 6.2.2). Risk-Sensitive L2D, trained on the same data with the same
       architecture, fixes it: Critical-tier deferral rises to <b>70.56%</b>, now correctly the highest
       of all four tiers, while Low rises only to 18.60%.
     </div>
 
-    <h3 class="section-title">1. Deferral by risk tier — all three datasets</h3>
+    <h3 class="section-title">1. Deferral by risk tier across all three datasets</h3>
     <p class="caption">
       Standard L2D (blue) vs Risk-Sensitive L2D (amber), percentage of transactions deferred to a
-      human, per risk tier. Each dataset has its own scale — ULB's effect is sub-1%, IEEE-CIS's is
-      10-70%, PaySim's is 0-4% — because base fraud rates and transaction volumes differ hugely
+      human, per risk tier. Each dataset has its own scale (ULB's effect is sub-1%, IEEE-CIS's is
+      10-70%, PaySim's is 0-4%) because base fraud rates and transaction volumes differ hugely
       across the three. What matters is the shape: Critical tier should be the tallest amber bar.
     </p>
     <div class="cols cols-3" id="tier-charts"></div>
     <p class="caption">
       Exact values are printed on every bar precisely because each panel's y-axis is independently
-      scaled — read the numbers, not just the bar heights, when comparing across datasets.
+      scaled, so read the numbers, not just the bar heights, when comparing across datasets.
     </p>
 
     <h3 class="section-title">2. Is this a fluke of one lucky training run?</h3>
     <p class="caption">
       No formal significance test was run (McNemar's test and confidence intervals were scoped out
-      given the project timeline — see report Section 3.4). What was checked instead: retraining
+      given the project timeline, see report Section 3.4). What was checked instead: retraining
       each model from scratch across multiple random seeds and confirming the direction holds every
       time. PaySim's multi-seed check was not run due to compute cost (Table 16).
     </p>
     <div class="cols cols-2" id="seed-charts"></div>
     <p>
       On <b>ULB</b>, the direction held in all 5 seeds (ratio range 4.6x-24.7x), though 2 of those 5
-      seeds saw the underlying classifier itself collapse (F1 = 0.000) under severe class imbalance —
-      a limitation of the small shared-trunk architecture, not of the risk-sensitive mechanism, which
+      seeds saw the underlying classifier itself collapse (F1 = 0.000) under severe class imbalance,
+      a limitation of the small shared-trunk architecture and not of the risk-sensitive mechanism, which
       kept separating tiers correctly even then (Section 6.1.3). On <b>IEEE-CIS</b>, the result was
       steadier: ratio range 5.49x-6.78x across 4 seeds (Section 6.2.4).
     </p>
@@ -101,15 +101,15 @@
       Honestly, mixed. ROC-AUC (how well the classifier ranks fraud vs normal, independent of any
       decision threshold) holds or improves on all three datasets. F1 (the classifier's precision/
       recall balance on autonomous decisions) dips slightly on ULB, since deferring more of the
-      hardest cases removes some it would otherwise have guessed right on autonomously — but rises
+      hardest cases removes some it would otherwise have guessed right on autonomously, but rises
       on IEEE-CIS and PaySim.
     </p>
     <div class="cols cols-2" id="f1-auc-charts"></div>
 
     <h3 class="section-title">4. What if the weight gradient were gentler or steeper?</h3>
     <p class="caption">
-      Every result above uses one fixed weight schedule per dataset (Section 4.6). This is not a live
-      control on the trained model — the risk weight is baked into the training loss itself, so
+      Every result above uses one fixed weight schedule per dataset (Section 4.6). This isn't a live
+      control on the trained model. The risk weight is baked into the training loss itself, so
       changing it means retraining from scratch, not adjusting a frozen model's output. What follows
       are 5 real, independently retrained ULB models from the report's own weight-sensitivity sweep
       (Section 6.1.4), not a simulated or post-hoc reweighting.
@@ -133,12 +133,12 @@
       <div id="weight-config-chart"></div>
     </div>
     <p class="caption">
-      Steeper weight gradients push Critical-tier deferral very high — the 'steep' configuration defers
-      almost every Critical-tier case (21.96%) and even nudges F1 up — but at the cost of far more
+      Steeper weight gradients push Critical-tier deferral very high, the 'steep' configuration defers
+      almost every Critical-tier case (21.96%) and even nudges F1 up, but at the cost of far more
       reviewer load. Gentler gradients ('minimal') barely separate the tiers at all, collapsing back
       toward Standard L2D's behaviour. The thesis's own choice sits deliberately between the two, and
       was picked using only the training-set deferral rate before any test-set metric was inspected
-      (Section 4.6) — not tuned after the fact to produce the best-looking chart here.
+      (Section 4.6), not tuned after the fact to produce the best-looking chart here.
     </p>
 
     <h3 class="section-title">Before you go further: what this page doesn't show</h3>
@@ -146,13 +146,13 @@
       This page is the headline evidence, not the full account. Three things the charts above don't
       make visible: each dataset needed its <b>own hand-tuned cost configuration</b> (ULB uses risk
       weights 1.0/0.8/0.5/0.2 with base cost 0.13; IEEE-CIS uses gentler weights 1.0/0.9/0.7/0.5 with
-      base cost 0.63 — not one universal setting that works everywhere, Section 4.6). <b>PaySim's
-      calibration was fragile</b> — a systematic sweep across base costs found the model's behaviour
+      base cost 0.63, not one universal setting that works everywhere, Section 4.6). <b>PaySim's
+      calibration was fragile</b>: a systematic sweep across base costs found the model's behaviour
       collapsed into deferring almost everything or almost nothing for most values tried before a usable
       setting was found (Section 6.3, Discussion). And <b>2 of 5 ULB training seeds saw the underlying
       classifier collapse entirely</b> (F1 = 0.000), even though the deferral mechanism itself still
       separated tiers correctly in those runs (Section 6.1.3). None of this contradicts the headline
-      result — the direction held in every seed and every dataset tested — but the full report treats
+      result (the direction held in every seed and every dataset tested), but the full report treats
       these results with more caution than this page does, and that caution is deliberate, not an
       oversight. See Sections 4.6, 6.1.3-6.1.4, and the PaySim discussion in 6.3 for the complete picture.
     </div>
@@ -160,7 +160,7 @@
     <div class="cta-box">
       Curious how this actually plays out, transaction by transaction? Switch to the
       <b>🔍 ULB Transaction Console</b> tab above to see this mechanism operate live on real, individual
-      ULB transactions — including a real fraud case where it made the difference.
+      ULB transactions, including a real fraud case where it made the difference.
       <br /><br />
       <span style="font-size:0.82rem; color:#94a3b8;">Note: that console explores ULB only. The
       IEEE-CIS and PaySim results above are the report's figures, not a live, clickable build for
@@ -222,15 +222,15 @@
 
     <div id="subtab-explorer" class="tab-panel" style="display:none;">
       <p class="caption">
-        Take one real transaction's underlying behaviour and slide its amount up or down — everything
-        else about the transaction stays fixed. Watch how each model's decision changes as the amount alone changes.
+        Take one real transaction's underlying behaviour and slide its amount up or down. Everything
+        else about the transaction stays fixed, so you can watch how each model's decision changes as the amount alone changes.
       </p>
       <label class="field-label" for="profile-select">Behaviour pattern (taken from a real transaction)</label>
       <select id="profile-select"></select>
       <p class="caption" id="profile-desc"></p>
 
       <label class="field-label" style="margin-top:0.8rem;" for="amount-slider">
-        Transaction amount (€) — <span class="range-value" id="amount-slider-value"></span>
+        Transaction amount (€): <span class="range-value" id="amount-slider-value"></span>
       </label>
       <input type="range" id="amount-slider" min="1" max="2000" step="1" />
 
@@ -241,9 +241,9 @@
       <div id="explorer-warning"></div>
 
       <p class="caption" style="margin-top:0.6rem;">
-        Note: the deferral probability does not move smoothly or monotonically as amount changes —
-        an empirical property of this small neural network found while building this console, not a
-        claim made in the report itself. Try sliding slowly through the full range to see it.
+        Note: the deferral probability does not move smoothly or monotonically as amount changes.
+        That's an empirical property of this small neural network found while building this console,
+        not a claim made in the report itself. Try sliding slowly through the full range to see it.
       </p>
     </div>
 
@@ -270,25 +270,25 @@
         transaction, in real time.
       </div>
       <div class="roadmap-card">
-        <span class="pill pill-planned">PLANNED — not implemented</span><br /><br />
+        <span class="pill pill-planned">PLANNED (not implemented)</span><br /><br />
         <b>Diagnose</b><br /><br />
         Upload an organisation's own model decisions and transaction data to check whether its current
         human-review policy is risk-proportional.
       </div>
       <div class="roadmap-card">
-        <span class="pill pill-planned">PLANNED — not implemented</span><br /><br />
+        <span class="pill pill-planned">PLANNED (not implemented)</span><br /><br />
         <b>Calibrate</b><br /><br />
         Compute a risk matrix and weighting scheme from the organisation's own transaction distribution,
         sized to its reviewer capacity.
       </div>
       <div class="roadmap-card">
-        <span class="pill pill-planned">PLANNED — not implemented</span><br /><br />
+        <span class="pill pill-planned">PLANNED (not implemented)</span><br /><br />
         <b>Monitor</b><br /><br />
         An ongoing dashboard tracking whether risk-proportionality holds as transaction patterns drift.
       </div>
     </div>
 
-    <p class="footnote">TierSense — MSc thesis research prototype. Runs 100% client-side: the two trained models
+    <p class="footnote">TierSense. MSc thesis research prototype. Runs 100% client-side: the two trained models
       (ported from PyTorch) execute in your browser via plain JavaScript, no server involved.</p>
 
   </section>
