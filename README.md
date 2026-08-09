@@ -5,16 +5,21 @@ Business, National College of Ireland): the full training pipeline, trained mode
 results file referenced in the report's Evaluation and Discussion chapters, and the interactive
 live demo built on top of the trained models.
 
-**Live demo:** https://tiersense-l2d-fraud-console.streamlit.app (no install needed)
+**Live demo:** https://dhwanikariya.github.io/tiersense-l2d-fraud-console/ (static site, no install,
+nothing sent to any server — the two trained models run as plain JavaScript in your browser)
 
 This repo exists so every finding in the report traces back to a real, runnable artefact in one
 place, not just a number typed into a table.
 
 ## Structure
 
-- [`prototype/`](prototype) — the Streamlit console (`app.py`) that lets you compare the standard
-  vs. risk-sensitive L2D policy on real ULB transactions, live. See
-  [`prototype/README.md`](prototype/README.md) for details.
+- [`docs/`](docs) — the live console: a static HTML/CSS/JS site (deployed via GitHub Pages) that
+  ports the two trained ULB models (Standard L2D, Risk-Sensitive L2D) to run entirely client-side,
+  so it has no server to keep running and nothing to deploy/break. Compares both policies on real
+  transactions live, plus the cross-dataset evidence page. See [`docs/README.md`](docs/README.md)
+  if present, or just open `docs/index.html`.
+- [`prototype/`](prototype) — the original Streamlit console (`app.py`) with the same features,
+  kept for reference. See [`prototype/README.md`](prototype/README.md) for details.
 - `notebooks/` — the 7 Jupyter notebooks that build and evaluate the three models (baseline,
   Standard L2D, Risk-Sensitive L2D) across ULB, IEEE-CIS and PaySim.
 - `scripts/` — 5 standalone scripts written later to stress-test the headline result: a
@@ -24,10 +29,21 @@ place, not just a number typed into a table.
   checkpointed.
 - `results/` — every JSON result, CSV, and chart produced by the notebooks and scripts above.
   Nothing in this folder is hand-edited; it is all direct pipeline output.
-- `docs/` — configuration manual and project presentation (coming soon).
 - `requirements-pipeline.txt` — pinned package versions for the notebooks/scripts pipeline
-  (PyTorch, scikit-learn, imbalanced-learn, Jupyter). The console has its own lighter
+  (PyTorch, scikit-learn, imbalanced-learn, Jupyter). The Streamlit console has its own lighter
   [`prototype/requirements.txt`](prototype/requirements.txt).
+
+## Running the live console locally
+
+No install needed — it's a static site:
+
+```
+cd docs
+python -m http.server 8000
+# open http://localhost:8000
+```
+
+Or just open `docs/index.html` directly in a browser.
 
 ## Running the training pipeline
 

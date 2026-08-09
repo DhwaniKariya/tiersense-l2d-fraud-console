@@ -1,6 +1,11 @@
-# TierSense — Risk-Sensitive Deferral Console
+# TierSense — Risk-Sensitive Deferral Console (Streamlit version)
 
-**Live demo:** https://tiersense-l2d-fraud-console.streamlit.app
+> A static, dependency-free version of this same console — same models, same features, nothing to
+> deploy or keep running — lives in [`../docs/`](../docs) and is the recommended live demo:
+> https://dhwanikariya.github.io/tiersense-l2d-fraud-console/. This Streamlit version is kept for
+> reference.
+
+**Live demo (Streamlit, may be asleep/cold-start):** https://tiersense-l2d-fraud-console.streamlit.app
 
 An interactive prototype built on top of the trained models from the MSc thesis *"A
 Risk-Sensitive Learning-to-Defer Framework for Responsible AI in Financial Fraud Detection"*
