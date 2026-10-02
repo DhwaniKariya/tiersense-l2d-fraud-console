@@ -8,11 +8,12 @@ slide the amount on top of it, which is also a more honest framing: "how
 would the system treat a transaction that behaves like X, at different
 sizes" rather than a meaningless flat hypothetical.
 """
+import os
 import json
 
 import pandas as pd
 
-HERE = r"E:\NCI\Sem3\Thesis\implementation\prototype"
+HERE = os.path.dirname(os.path.abspath(__file__))
 
 divergent = pd.read_csv(f"{HERE}/divergent_cases.csv")
 

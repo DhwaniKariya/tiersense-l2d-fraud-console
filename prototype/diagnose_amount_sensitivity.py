@@ -4,13 +4,14 @@ i.e. whether varying Amount alone (holding V1-V28 fixed) moves the deferral
 decision, by sweeping amount around rows we already know are in the
 "interesting" zone (the divergent cases found earlier).
 """
+import os
 import json
 import pandas as pd
 import torch
 
 from l2d_model import L2DNetwork, build_input_vector, run_inference
 
-HERE = r"E:\NCI\Sem3\Thesis\implementation\prototype"
+HERE = os.path.dirname(os.path.abspath(__file__))
 
 standard = L2DNetwork()
 standard.load_state_dict(torch.load(f"{HERE}/standard_l2d.pth", map_location="cpu"))

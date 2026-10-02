@@ -2,13 +2,14 @@
 Diagnose why the "type your own amount" mode shows identical, unchanging
 output for both models across the whole amount range.
 """
+import os
 import json
 import pandas as pd
 import torch
 
 from l2d_model import L2DNetwork, build_input_vector, run_inference
 
-HERE = r"E:\NCI\Sem3\Thesis\implementation\prototype"
+HERE = os.path.dirname(os.path.abspath(__file__))
 
 standard = L2DNetwork()
 standard.load_state_dict(torch.load(f"{HERE}/standard_l2d.pth", map_location="cpu"))
@@ -38,7 +39,7 @@ vals = list(normal_v_profile.values())
 print("mean-of-normals V-profile stats: min", min(vals), "max", max(vals), "mean", statistics.mean(vals))
 
 print("\n=== Test 3: real transaction's V-profile (a Low-tier normal), sweeping amount ===")
-df = pd.read_csv(r"E:\NCI\Sem3\Thesis\implementation\data\creditcard_with_tiers.csv")
+df = pd.read_csv(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "creditcard_with_tiers.csv"))
 real_row = df[(df["Risk_Tier"] == "Low") & (df["Class"] == 0)].iloc[100]
 real_v = {f"V{i}": float(real_row[f"V{i}"]) for i in range(1, 29)}
 for amount in [1, 20, 50, 100, 300, 600, 1000, 2000, 5000, 10000]:

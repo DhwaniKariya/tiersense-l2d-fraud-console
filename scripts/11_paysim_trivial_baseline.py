@@ -9,6 +9,7 @@ Critical tier) substituted for the learned deferral head, holding the
 classifier fixed. Isolates whether the learned mechanism adds anything beyond
 hard-coding the tiers.
 """
+import os
 import time
 import json
 import numpy as np
@@ -22,11 +23,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score, accuracy_score, roc_auc_score
 from imblearn.over_sampling import SMOTE
 import warnings
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 warnings.filterwarnings('ignore')
 
 T0 = time.time()
 print("Loading PaySim...", flush=True)
-df_pay = pd.read_csv(r"E:\NCI\Sem3\Thesis\implementation\data\PS_20174392719_1491204439457_log.csv")
+df_pay = pd.read_csv(os.path.join(ROOT, "data", "PS_20174392719_1491204439457_log.csv"))
 df_pay_filtered = df_pay[df_pay['type'].isin(['TRANSFER', 'CASH_OUT'])].copy()
 
 p25 = df_pay_filtered['amount'].quantile(0.25)
@@ -175,6 +178,6 @@ result = {
 }
 
 print(json.dumps(result, indent=2), flush=True)
-with open(r"E:\NCI\Sem3\Thesis\implementation\results\paysim_trivial_rule_baseline.json", 'w') as f:
+with open(os.path.join(ROOT, "results", "paysim_trivial_rule_baseline.json"), 'w') as f:
     json.dump(result, f, indent=2)
 print(f"Saved. Total elapsed {time.time()-T0:.0f}s", flush=True)

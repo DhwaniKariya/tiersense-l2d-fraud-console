@@ -5,3 +5,13 @@ data/
 notebooks/.ipynb_checkpoints/
 notebooks/anaconda_projects/
 .ipynb_checkpoints/
+
+# local environments and editor/OS clutter
+.venv/
+venv/
+.env
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+~$*

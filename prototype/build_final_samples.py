@@ -6,6 +6,7 @@ transaction" moments, rather than leaving that to chance on a small random
 sample (deferral overall is under 1%, so a handful of random picks will
 almost always land on cases where nothing interesting happens).
 """
+import os
 import json
 
 import pandas as pd
@@ -13,7 +14,7 @@ import torch
 
 from l2d_model import L2DNetwork
 
-HERE = r"E:\NCI\Sem3\Thesis\implementation\prototype"
+HERE = os.path.dirname(os.path.abspath(__file__))
 
 standard = L2DNetwork()
 standard.load_state_dict(torch.load(f"{HERE}/standard_l2d.pth", map_location="cpu"))

@@ -8,6 +8,7 @@ whether the learned mechanism adds anything beyond hard-coding the same risk
 tiers it was given, holding the classifier fixed -- the same single-variable
 discipline used for the Model 2 vs Model 3 comparison elsewhere in this thesis.
 """
+import os
 import json
 import numpy as np
 import pandas as pd
@@ -17,6 +18,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score, accuracy_score, roc_auc_score
 import warnings
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 warnings.filterwarnings('ignore')
 
 
@@ -32,7 +35,7 @@ class L2DNetwork(nn.Module):
         return self.classifier_head(s), torch.sigmoid(self.deferral_head(s))
 
 
-df = pd.read_csv(r"E:\NCI\Sem3\Thesis\implementation\data\creditcard_with_tiers.csv")
+df = pd.read_csv(os.path.join(ROOT, "data", "creditcard_with_tiers.csv"))
 X = df.drop(columns=['Class', 'Risk_Tier'])
 y = df['Class']
 risk_tiers = df['Risk_Tier']
@@ -47,7 +50,7 @@ y_np = y_test.values
 rt_np = rt_test.values
 
 model = L2DNetwork(input_dim=X_test_tensor.shape[1])
-model.load_state_dict(torch.load(r"E:\NCI\Sem3\Thesis\implementation\models\risk_sensitive_l2d.pth", map_location='cpu'))
+model.load_state_dict(torch.load(os.path.join(ROOT, "models", "risk_sensitive_l2d.pth"), map_location='cpu'))
 model.eval()
 
 with torch.no_grad():
@@ -92,6 +95,6 @@ result = {
 }
 
 print(json.dumps(result, indent=2))
-with open(r"E:\NCI\Sem3\Thesis\implementation\results\ulb_trivial_rule_baseline.json", 'w') as f:
+with open(os.path.join(ROOT, "results", "ulb_trivial_rule_baseline.json"), 'w') as f:
     json.dump(result, f, indent=2)
 print("Saved.")

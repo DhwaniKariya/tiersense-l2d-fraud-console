@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite the thesis."
+title: "A Risk-Sensitive Learning-to-Defer Framework for Responsible AI in Financial Fraud Detection"
+authors:
+  - family-names: Kariya
+    given-names: Dhwani Sanjay
+type: software
+date-released: 2026-08-10
+url: "https://dhwanikariya.github.io/tiersense-l2d-fraud-console/"
+repository-code: "https://github.com/DhwaniKariya/tiersense-l2d-fraud-console"
+license: MIT
+keywords:
+  - learning to defer
+  - fraud detection
+  - human oversight
+  - responsible AI
+  - EU AI Act
+preferred-citation:
+  type: thesis
+  thesis-type: "MSc thesis"
+  title: "A Risk-Sensitive Learning-to-Defer Framework for Responsible AI in Financial Fraud Detection"
+  authors:
+    - family-names: Kariya
+      given-names: Dhwani Sanjay
+  institution:
+    name: "National College of Ireland"
+  year: 2026

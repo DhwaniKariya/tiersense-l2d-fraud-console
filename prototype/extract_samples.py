@@ -9,11 +9,12 @@ the full 284,807-row ULB dataset at runtime:
     on (fit before the train/test split), so any new input gets scaled the
     same way the models were trained to expect.
 """
+import os
 import json
 import pandas as pd
 
-SRC = r"E:\NCI\Sem3\Thesis\implementation\data\creditcard_with_tiers.csv"
-OUT_DIR = r"E:\NCI\Sem3\Thesis\implementation\prototype"
+SRC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "creditcard_with_tiers.csv")
+OUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 df = pd.read_csv(SRC)
 

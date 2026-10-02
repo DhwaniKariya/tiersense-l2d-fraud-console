@@ -6,6 +6,7 @@ Data split and SMOTE are kept fixed at random_state=42 throughout (same
 convention as the ULB check); only model weight init and batch order vary
 by seed.
 """
+import os
 import time
 import json
 import numpy as np
@@ -19,14 +20,16 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score
 from imblearn.over_sampling import SMOTE
 import warnings
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 warnings.filterwarnings('ignore')
 
 T0 = time.time()
-OUT_JSON = r"E:\NCI\Sem3\Thesis\implementation\results\ieee_cis_multiseed_robustness.json"
+OUT_JSON = os.path.join(ROOT, "results", "ieee_cis_multiseed_robustness.json")
 
 print("Loading IEEE-CIS...", flush=True)
-train_transaction = pd.read_csv(r"E:\NCI\Sem3\Thesis\implementation\data\ieee-cis\train_transaction.csv")
-train_identity = pd.read_csv(r"E:\NCI\Sem3\Thesis\implementation\data\ieee-cis\train_identity.csv")
+train_transaction = pd.read_csv(os.path.join(ROOT, "data", "ieee-cis", "train_transaction.csv"))
+train_identity = pd.read_csv(os.path.join(ROOT, "data", "ieee-cis", "train_identity.csv"))
 df_ieee = pd.merge(train_transaction, train_identity, on='TransactionID', how='left')
 
 missing_pct = df_ieee.isnull().mean()

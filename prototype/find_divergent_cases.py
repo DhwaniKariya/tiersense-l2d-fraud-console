@@ -6,6 +6,7 @@ the two models actually disagree, so the prototype can guarantee at least
 one genuine "Standard L2D lets this through, Risk-Sensitive L2D escalates it"
 moment instead of leaving it to chance.
 """
+import os
 import json
 
 import pandas as pd
@@ -13,8 +14,8 @@ import torch
 
 from l2d_model import L2DNetwork, build_input_vector
 
-HERE = r"E:\NCI\Sem3\Thesis\implementation\prototype"
-SRC = r"E:\NCI\Sem3\Thesis\implementation\data\creditcard_with_tiers.csv"
+HERE = os.path.dirname(os.path.abspath(__file__))
+SRC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "creditcard_with_tiers.csv")
 
 standard = L2DNetwork()
 standard.load_state_dict(torch.load(f"{HERE}/standard_l2d.pth", map_location="cpu"))

@@ -10,6 +10,7 @@
 # (the notebook packages live under the py launcher's 3.13 install, not the
 # system python3)
 
+import os
 import time
 import json
 import numpy as np
@@ -23,12 +24,14 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score
 from imblearn.over_sampling import SMOTE
 import warnings
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 warnings.filterwarnings('ignore')
 
 T0 = time.time()
-OUT_JSON = r"E:\NCI\Sem3\Thesis\implementation\results\ulb_weight_sensitivity.json"
+OUT_JSON = os.path.join(ROOT, "results", "ulb_weight_sensitivity.json")
 
-df = pd.read_csv(r"E:\NCI\Sem3\Thesis\implementation\data\creditcard_with_tiers.csv")
+df = pd.read_csv(os.path.join(ROOT, "data", "creditcard_with_tiers.csv"))
 X = df.drop(columns=['Class', 'Risk_Tier'])
 y = df['Class']
 risk_tiers = df['Risk_Tier']
