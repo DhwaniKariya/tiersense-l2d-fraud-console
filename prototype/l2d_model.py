@@ -1,6 +1,6 @@
 """
 Shared model definition and inference helpers for the fraud-review console
-prototype. Architecture matches implementation/notebooks/04_Risk_Sensitive_L2D.ipynb
+prototype. Architecture matches notebooks/04_Risk_Sensitive_L2D.ipynb
 exactly (input_dim=30: Time, V1-V28, Amount), so the saved .pth checkpoints
 load without modification.
 """
